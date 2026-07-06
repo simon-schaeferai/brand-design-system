@@ -52,8 +52,10 @@ case "$MODE" in
     ;;
   none)
     echo "KEIN Browser verfügbar (weder agent-browser noch Playwright)."
-    echo "Es wurde NICHT gerendert — nur der Static-Check (check_cards.py) ist gelaufen."
-    echo "Das im Bericht ehrlich ausweisen. Nichts installieren, nur um zu rendern."
+    echo "Empfehlung an den User: npm install -g agent-browser   (öffentliches npm-Paket)"
+    echo "— dann rendert dieser Schritt jede Karte echt, statt nur statisch zu prüfen."
+    echo "Ohne Installation gilt: NICHT gerendert, nur Static-Check — im Bericht ehrlich ausweisen."
+    echo "Nie eigenmächtig installieren; das entscheidet der User."
     exit 3
     ;;
 esac

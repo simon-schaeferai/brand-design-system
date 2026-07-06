@@ -8,7 +8,7 @@ trigger-phrases:
   - "meine brand in claude design"
   - "marke extrahieren"
   - "design system erstellen"
-compatibility: Benötigt das DesignSync-Tool (claude.ai-Login mit Design-Zugang). Browser (agent-browser oder Playwright/Chrome) optional für die Render-Verifikation. Python 3 (nur Stdlib).
+compatibility: Benötigt das DesignSync-Tool (claude.ai-Login mit Design-Zugang) und Python 3 (nur Stdlib). Für die Render-Verifikation wird agent-browser empfohlen (npm install -g agent-browser); alternativ vorhandenes Playwright, sonst ehrlicher statischer Fallback.
 ---
 
 # brand-design-system
@@ -27,7 +27,7 @@ Der User gibt nur seine **Domain** (z.B. `https://acme.de`). Optional: Notizen o
 ### Phase 0 — Preflight
 
 1. DesignSync-Tool laden: `ToolSearch("select:DesignSync")`. Ist es nicht verfügbar oder meldet später „needs a claude.ai login": **nicht abbrechen** — dem User wörtlich sagen, er soll im Terminal `/design-login` ausführen (alternativ `/login` mit dem Abo-Account), sich authentifizieren und „weiter" schreiben. Bis dahin alles Lokale trotzdem fertig bauen.
-2. Browser-Verfügbarkeit prüfen: `bash scripts/render_cards.sh --detect` (Pfade relativ zu diesem Skill-Ordner). Ergebnis merken für Phase 3.
+2. Browser-Verfügbarkeit prüfen: `bash scripts/render_cards.sh --detect` (Pfade relativ zu diesem Skill-Ordner). Ergebnis merken für Phase 3. Meldet der Check `none`, dem User JETZT (nicht erst in Phase 3) die Installation anbieten: `npm install -g agent-browser` (öffentliches npm-Paket, vercel-labs) — damit wird jede Karte vor dem Push echt gerendert und gesichtet statt nur statisch geprüft. Lehnt er ab oder gibt es kein npm, weiterarbeiten und den statischen Fallback ehrlich ausweisen.
 3. Dem User den einen manuellen Schritt ankündigen: Schriften müssen am Ende einmal über „Upload fonts" in Claude Design hochgeladen werden.
 4. Arbeitsordner anlegen (z.B. `./claude-design-build/` oder ein Scratch-Verzeichnis) mit Unterordnern `cards/`, `fonts/`, `assets/`.
 

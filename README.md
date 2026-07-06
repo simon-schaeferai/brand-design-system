@@ -17,16 +17,19 @@ Design-Konstante des Projekts: **ein** kanonischer `tokens.css`-Block, aus dem j
 
 ## Quick start
 
-**Requirements:** Claude Code, ein Claude-Abo mit Zugang zu Claude Design (claude.ai/design), Python 3.
+**Requirements:** Claude Code, ein Claude-Abo mit Zugang zu Claude Design (claude.ai/design), Python 3. Empfohlen: Node/npm für agent-browser.
 
 ```bash
 # 1. Skill installieren (global = in allen Projekten verfügbar)
 git clone https://github.com/simon-schaeferai/brand-design-system ~/.claude/skills/brand-design-system
 
-# 2. Claude Code öffnen (beliebiger Ordner) und den Skill aufrufen — das ist alles
+# 2. agent-browser installieren (empfohlen) — rendert jede Karte echt, bevor gepusht wird
+npm install -g agent-browser
+
+# 3. Neue Claude-Code-Session öffnen (beliebiger Ordner) und den Skill aufrufen — das ist alles
 ```
 
-Wenn Claude Code danach `/brand-design-system` als Command kennt, bist du startklar.
+Wenn Claude Code danach `/brand-design-system` als Command kennt, bist du startklar. Schritt 2 ist optional: ohne agent-browser läuft statt der Render-Prüfung ein ehrlicher statischer Check.
 
 ## Using it
 
