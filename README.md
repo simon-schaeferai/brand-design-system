@@ -46,6 +46,7 @@ Claude extrahiert, zeigt dir einen Checkpoint (Token-Tabelle, Karten-Plan, Schri
 
 ## Limitations
 
+- Getestet auf macOS/Linux (Shopify- und Next.js-Seiten). Unter Windows läuft die Render-Prüfung (`render_cards.sh`, bash) nur via WSL oder Git Bash; ohne Browser-Tool greift überall der ehrliche statische Fallback.
 - Der Font-Upload in Claude Design bleibt ein manueller Klick („Upload fonts") — das Tool kann ihn nicht übernehmen. Lizenzierte Schriften (Adobe/Monotype) werden nie mitgeliefert, sondern als benannter Fallback eingetragen.
 - Seiten, die komplett per JavaScript rendern oder hinter Login/Bot-Schutz liegen, brauchen das Repo oder ein exportiertes Stylesheet als Quelle.
 - Fremde Marken-Assets (z.B. Payment-Logos) landen als Referenz im eigenen System — weiterverteilen darfst du sie nicht.
