@@ -1,6 +1,6 @@
 ---
 name: brand-design-system
-description: Baut aus einer beliebigen Webseiten-Domain automatisch ein vollständiges Marken-Design-System in Claude Design (claude.ai/design) — echte Farben, Schriften, Spacing, Motion, Gradients, Logo-Suite, Icons und Bildsprache werden aus der Live-Seite extrahiert, als Karten gebaut, verifiziert, über das DesignSync-Tool gepusht und optional als globales Brand-Kit (~/.claude/branding/) projektübergreifend in Claude Code verankert. Nutze diesen Skill, wenn der User ein Design-System aus seiner Webseite/Domain/Brand will — „mach ein Design-System aus meiner Seite", „meine Brand in Claude Design", „Design-System für <domain>", „extrahier meine Marke", „Branding global einrichten", „/brand-design-system".
+description: Baut aus einer beliebigen Webseiten-Domain automatisch ein vollständiges Marken-Design-System auf Agentur-Niveau in Claude Design (claude.ai/design) — extrahiert Farben, Schriften, Layout, Motion, Gradients, Icons, Bildsprache und Voice, veredelt Lücken systematisch (Ramps/Skalen/States), baut einen Enterprise-Karten-Satz (~22: Foundations + volle Komponenten + Accessibility) mit geteilten Komponenten, prüft jede Karte gegen eine bewertete Design-QA-Rubric, pusht über DesignSync und verankert das Branding optional global in Claude Code (~/.claude/branding/). Nutze diesen Skill, wenn der User ein Design-System aus seiner Webseite/Domain/Brand will — „mach ein Design-System aus meiner Seite", „meine Brand in Claude Design", „Design-System für <domain>", „extrahier meine Marke", „Branding global einrichten", „/brand-design-system".
 trigger-phrases:
   - "brand design system"
   - "design system aus meiner webseite"
@@ -40,36 +40,39 @@ Der User gibt nur seine **Domain** (z.B. `https://acme.de`). Optional: Notizen o
 3. **Mehr als die Startseite crawlen.** Zusätzlich 2-3 markante Seiten (Kategorie/Produkt/Kampagnen-Landingpage) — Hero-Backgrounds und Lifestyle-Bilder leben oft NICHT auf der Home.
 4. **Assets aktiv ernten** (Logo-Suite, Inline-SVG-Icons, ggf. Payment-Badges, Hintergründe/Hero, Bildsprache-Beispiele, OG-Image/Favicon) — echte Dateien nach `assets/` laden. Große Bilder als Thumbnail, nie 4096²-Originale. Schriften nach der Beschaffungs-Reihenfolge in extraction.md nach `fonts/`.
 
-Danach in **EINE kanonische `tokens.css`** normalisieren (`:root{...}`, einheitliche Namen: `--color-*`, `--font-*`, `--text-*`, `--leading-*`, `--space-*`, `--radius-*`, `--shadow-*`, `--dur-*`, `--ease-*`, `--gradient-*`). Abgeleitete Werte mit `/* derived */` markieren. Fehlende Werte systematisch ableiten und berichten — nur bei blockierender Unklarheit fragen.
+**System-zentriert, nicht nur Tokens** (extraction.md Abschnitt 4/4b): zusätzlich das **Layout-System** (Breakpoints, Container-Breiten, Grid), die **Interaktions-States** (hover/active/focus-visible/disabled je Komponente), die **Data-Viz-Palette** und **echte Copy** für Voice (Headlines/CTAs/Microcopy) minen. Bildsprache mit dem **Vision-Schritt** (Thumbnails ansehen) zu Art-Direction-Regeln verdichten.
+
+Danach in **EINE kanonische `tokens.css`** normalisieren. Fehlende, aber für ein vollständiges System nötige Werte **systematisch veredeln** nach [references/systematize.md](references/systematize.md) (Neutral-Ramp aus 2-3 Grautönen, Typo-Skala rationalisieren, State-Farben + Focus-Ring ableiten, minimale marken-treue Elevation, semantische Paare) — jeder abgeleitete Wert trägt `/* derived */`. Das ist „das Maximum aus dem Rohmaterial holen", ohne die Marke zu verraten.
 
 ### Checkpoint — Go einholen
 
-Dem User zeigen: Token-Übersicht als Tabelle, den **Karten-Plan mit den geplanten Sektionen pro Karte** (nicht nur Namen — z.B. „Colors: Rollen-Grid · WCAG-Tabelle · Verwendungsregeln"), Schrift-Plan (einbettbar vs. lizenzierter Fallback), Asset-Fundliste (gefunden/nicht gefunden), Ziel-Projekt (neu oder bestehend). **Coverage:** Eine typische Marke ergibt 10+ Karten; planst du weniger, je Auslassung einen Evidenz-Beleg nennen (leere Grep / nicht vorhanden). „Weniger Arbeit" ist kein Beleg. **Auf Go warten, bevor Karten geschrieben werden.**
+Dem User zeigen: Token-Übersicht als Tabelle (**extrahiert vs. abgeleitet getrennt**), den **Karten-Plan mit den geplanten Sektionen pro Karte** (nicht nur Namen — z.B. „Colors: Rollen-Grid · WCAG-Tabelle · Verwendungsregeln · Mini-UI"), Schrift-Plan, Asset-Fundliste, und je nicht geplanter Karte des Kanons einen **Evidenz-Beleg**. **Coverage-Anspruch: Enterprise-Kanon (~22 Karten, references/cards.md). Ziel ≥18 für eine reiche Marke.** Jede Auslassung nur mit Beleg (leere Grep / Komponente nicht auf der Seite gefunden). „Weniger Arbeit" ist kein Beleg. **Auf Go warten, bevor Karten geschrieben werden.**
 
 ### Phase 2 — Karten bauen
 
-**Karten-Satz, Tiefen-Standard und Generator-Muster: [references/cards.md](references/cards.md).** Vor dem Bauen die Pflicht-Referenz [assets/example-card.html](assets/example-card.html) ansehen — sie zeigt das Struktur-Niveau, das JEDE Karte erreichen muss: These-Titel → Doktrin-Absatz → Demonstration mit Rezepten → Nutzungsregeln (inkl. Verbote) → Token-Labels. Struktur nachahmen, Look aus der jeweiligen Marke extrahieren.
+**Karten-Kanon, Content-Contracts, Tiefen-/Specimen-Standard: [references/cards.md](references/cards.md).** Vor dem Bauen die Pflicht-Referenz [assets/example-card.html](assets/example-card.html) ansehen — sie zeigt das Enterprise-Struktur-Niveau: These-Titel → Doktrin → Specimen/Komponente IM KONTEXT → State-Matrix → Anatomie mit Redline → A11y-Notiz → Nutzungsregeln → Token-Labels. Struktur nachahmen, Look aus der jeweiligen Marke.
 
-1. `assets/gen_cards_template.py` in den Arbeitsordner kopieren und füllen — der Token-Block wird EINMAL definiert und in jede Karte injiziert, nie pro Karte von Hand. Den ATMOSPHERE-Block auf das echte Flächen-Finish der Marke setzen (dunkle Marke = echter Canvas-Verlauf/Grain; helle Flat-Marke = flat lassen). Die Karte IST die Marke, keine weiße Doku-Seite.
-2. Generator laufen lassen → `cards/*.html` + `tokens.css` entstehen im Arbeitsordner.
-3. **Gate:** `python3 scripts/check_cards.py <arbeitsordner>` muss `bad: 0` melden. Prüft zusätzlich zum Basalen jetzt den Tiefen-Standard: ≥6 KB Substanz und ≥3 Sektionen pro Karte, WCAG-Ratios auf der Colors-Karte. Fehler beheben und neu generieren, bis grün — Tiefe kommt aus echtem Inhalt (Doktrin, Rezepte, Regeln), NIE aus Fülltext.
+1. `assets/gen_cards_template.py` in den Arbeitsordner kopieren und füllen. **Der `COMPONENTS_CSS`-Block ist geteilt** — er wird byte-identisch in jede Karte injiziert UND als `components.css` geschrieben (Manifest registriert ihn als `globalCssPaths`). So sehen Buttons/Inputs/Badges über alle Karten identisch aus, der Satz wirkt als EIN System. Nie eine Komponenten-Klasse pro Karte umdefinieren. Den ATMOSPHERE-Block auf das echte Marken-Finish setzen (dunkel = Canvas-Verlauf/Grain, hell = flat).
+2. Karten nach den Content-Contracts in cards.md bauen: Specimen statt Labels (Pangram + echter Absatz), Komponenten im Kontext + State-Matrix, Anatomie für komplexe Komponenten, A11y-Notiz je Komponente. Abgeleitetes mit `/* derived */` + `derived`-Tag ausweisen.
+3. Generator laufen lassen → `cards/*.html` + `tokens.css` + `components.css`.
+4. **Gate:** `python3 scripts/check_cards.py <arbeitsordner>` muss `bad: 0` melden. Prüft: Tiefe (≥6 KB, ≥3 Sektionen), Shared-CSS-Isolation, **Komponenten-Block byte-identisch in allen Karten** (Konsistenz-Beweis), Specimen auf Typography, A11y (Focus-State bei Komponenten, reduced-motion bei Motion), WCAG auf Colors. Fehler beheben und neu generieren, bis grün.
 
-### Phase 3 — Echt rendern + Tiefen-Sichtprüfung
+### Phase 3 — Rendern + Design-QA-Rubric (der Qualitäts-Loop)
 
-`bash scripts/render_cards.sh <arbeitsordner>` — screenshottet jede Karte.
+**Vollständig: [references/design-qa.md](references/design-qa.md).** Das ist der Mechanismus, der Top-Niveau MARKEN-UNABHÄNGIG macht — das Byte-Gate fängt Dünnes, die Rubric fängt Schwaches.
 
-- **Screenshots ANSEHEN** (mit dem Read-Tool). Pro Karte zwei Prüfungen:
-  - **Technik:** Schriften greifen? Bilder laden? Nichts leer oder kaputt?
-  - **Tiefe:** Trägt die Karte eine These (kein bloßes Label)? Erklärt die Doktrin das System? Hat jede Demonstration ein Rezept? Stehen Nutzungsregeln da? Ist die Fläche im Marken-Finish (Atmosphäre), nicht Doku-Weiß? Wirkt sie wie eine Seite aus einem Marken-Guide oder wie eine nackte Token-Liste?
-- Eine Karte, die nur Swatches zeigt, geht zurück in Phase 2 (Doktrin/Rezepte/Regeln ergänzen), nicht in den Push.
-- Kein Browser verfügbar → das Skript sagt es ehrlich (und nennt `npm install -g agent-browser`). Dann im Bericht klar ausweisen: „nur statisch geprüft, nicht gerendert". **Nie behaupten, eine Karte sei gerendert, wenn nichts lief.**
+1. `bash scripts/render_cards.sh <arbeitsordner>` — screenshottet jede Karte.
+2. **Jeden Screenshot mit dem Read-Tool ANSEHEN** und als kritischer Art-Director (nicht als Autor) auf 7 Dimensionen bewerten (0-4, Pass ab 3): Hierarchie · Spacing-Rhythmus · Specimen-Realismus · Doktrin-/Rezept-Klarheit · Atmosphäre im Marken-Finish · Kontrast/A11y · Set-Konsistenz. Leitfrage: „Würde ein Kunde dafür zahlen?"
+3. **Loop:** Karten mit einer Dimension < 3 gehen zurück in Phase 2 (gezielt die schwache Dimension beheben), neu generieren, neu rendern, neu bewerten. **Max 2 Runden**, dann ehrlich berichten, was offen blieb.
+4. **Kein Push, solange eine Karte eine Dimension < 3 hat** (außer der User winkt eine benannte Ausnahme durch). Set-Level-Urteil (Durchschnitt + schwächste 2 Karten) in den Bericht.
+5. Kein Browser verfügbar → Skript sagt es ehrlich (nennt `npm install -g agent-browser`). Dann NUR statischer Check, im Bericht klar ausweisen. **Nie behaupten, eine Karte sei gerendert/bewertet, wenn nichts lief.**
 
 ### Phase 4 — Push über DesignSync
 
 **Vollständiges Protokoll: [references/push.md](references/push.md).** Kurzfassung:
 
 1. `python3 scripts/build_manifest.py <arbeitsordner>` → baut `_ds_manifest.json` aus den Karten + tokens.css. **Das Manifest wird bei JEDEM Push mitgeschrieben** — auch beim ersten. (Grund: Die App baut den Karten-Index nur beim allerersten Projekt-Load selbst; nachgepushte Karten erscheinen sonst nie in der Sidebar. Belegt, nicht theoretisch.)
-2. DesignSync-Reihenfolge: `list_projects` → ggf. `create_project` → `get_project` (Typ muss `PROJECT_TYPE_DESIGN_SYSTEM` sein) → `finalize_plan` (writes: `cards/*.html`, `tokens.css`, `fonts/*`, `assets/*`, `_ds_manifest.json`; localDir = Arbeitsordner) → `write_files` → `list_files` (Kontrolle) → `report_validate` mit den ehrlichen Zahlen.
+2. DesignSync-Reihenfolge: `list_projects` → ggf. `create_project` → `get_project` (Typ muss `PROJECT_TYPE_DESIGN_SYSTEM` sein) → `finalize_plan` (writes: `cards/*.html`, `tokens.css`, `components.css`, `fonts/*`, `assets/*`, `_ds_manifest.json`; localDir = Arbeitsordner) → `write_files` → `list_files` (Kontrolle) → `report_validate` mit den ehrlichen Zahlen.
 3. Login-Fehler → Protokoll aus Phase 0 (Terminal-Ansage, warten, nahtlos weitermachen).
 4. Bestandsprojekt: erst Diff zeigen, nie fremde Pfade löschen ohne namentliche Bestätigung.
 

@@ -106,6 +106,11 @@ def main() -> int:
     if not namespace:
         namespace = re.sub(r"[^A-Za-z0-9]", "", os.path.basename(os.path.abspath(workdir))) or "DesignSystem"
 
+    # globalCssPaths: tokens.css immer; components.css nur wenn vorhanden (geteilter Block)
+    global_css = ["tokens.css"]
+    if os.path.isfile(os.path.join(workdir, "components.css")):
+        global_css.append("components.css")
+
     manifest = {
         "namespace": namespace,
         "components": [],
@@ -113,7 +118,7 @@ def main() -> int:
         "cards": cards,
         "templates": [],
         "hasThumbnailHtml": False,
-        "globalCssPaths": ["tokens.css"],
+        "globalCssPaths": global_css,
         "tokens": tokens,
         "themes": [],
         "fonts": [],
