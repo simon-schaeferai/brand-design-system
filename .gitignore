@@ -1,0 +1,90 @@
+# ─────────────────────────────────────────────
+#  Secrets — NIEMALS committen
+# ─────────────────────────────────────────────
+.env
+**/.env
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.p12
+id_rsa*
+secrets.*
+credentials.*
+
+# ─────────────────────────────────────────────
+#  Dependencies
+# ─────────────────────────────────────────────
+node_modules/
+**/node_modules/
+.venv/
+**/.venv/
+venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+vendor/
+target/
+
+# ─────────────────────────────────────────────
+#  Fremd geklonte Tools  → als Dependency in SETUP.md dokumentieren, nicht vendorn
+#  (pro Projekt einkommentieren/anpassen)
+# ─────────────────────────────────────────────
+# /video-use/
+# /some-vendored-tool/
+
+# ─────────────────────────────────────────────
+#  Medien & große Binaries  (gehören selten in ein Code-Repo)
+# ─────────────────────────────────────────────
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.wav
+*.mp3
+*.m4a
+*.webm
+*.zip
+*.tar
+*.gz
+*.psd
+*.sketch
+
+# ─────────────────────────────────────────────
+#  Generierte Outputs
+# ─────────────────────────────────────────────
+**/renders/
+**/frames/
+**/previews/
+**/snapshots/
+dist/
+build/
+out/
+*.log
+.cache/
+
+# ─────────────────────────────────────────────
+#  Persönliche / private Inhalte  → lokal behalten, nie veröffentlichen
+#  (pro Projekt einkommentieren/anpassen)
+# ─────────────────────────────────────────────
+# echte Projekt-Daten — nur ein Beispiel/Template versionieren:
+# /projects/*
+# !/projects/example/
+# eigenes Foto/Gesicht (lokal nutzbar, nie public):
+# path/to/assets/profil.png
+
+# ─────────────────────────────────────────────
+#  OS / Editor / Scratch
+# ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+scratchpad/
+
+# brand-design-system spezifisch
+claude-design-build/
+output/
+shots/
+__pycache__/

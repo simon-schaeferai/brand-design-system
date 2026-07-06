@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+  TEASER-VORLAGE — Simons Brand-Look, Tokens 1:1 aus dem Design-System
+  "Simon Schaefer — Brand CI" (claude.ai/design, projectId da27803b-1e8c-4817-9d11-e28171e41ca3).
+  Quelle der Werte: styles.css + foundations/{colors,gradients,elevation,materials}.
+  Ändert Simon das Design-System, hier einmal nachziehen.
+
+  So benutzt du sie:
+    1. Platzhalter {{...}} ersetzen: Headline + Akzentwort, Subtitle, zwei Panel-Labels,
+       und in jedem Panel ECHTEN Output (Terminal-Session oder echte Ergebnis-Datei).
+    2. agent-browser rendern, viewport 1280x720, screenshot → docs/teaser.png.
+  Regeln:
+    - Beide Panels zeigen ECHTEN Output. NIE ein Marketing-/Feature-Panel.
+    - Akzentwort = das wichtigste Nomen, Instrument Serif Italic orange.
+    - Grüne Checks nur, wenn der echte Lauf sie geliefert hat (nicht erfinden).
+    - Violet (#8b5cf6 / rgba(120,80,255)) ist NUR Community-Signal — hier weglassen.
+-->
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,600&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:1280px;height:720px;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    /* Aurora — Orange dominant (Violet = Community-only, weg) + Canvas-Radial */
+    background:
+      radial-gradient(circle at 16% 26%,rgba(255,138,61,0.20),transparent 46%),
+      radial-gradient(125% 95% at 50% -8%,#0c0c12 0%,#07070a 60%);
+    background-color:#07070a;
+    position:relative;overflow:hidden;-webkit-font-smoothing:antialiased;
+  }
+  /* Grain — Design-System: baseFrequency .85, numOctaves 4, opacity .045, overlay */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:30;pointer-events:none;opacity:0.045;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{position:relative;z-index:1;padding:52px 56px 48px;height:100%;display:flex;flex-direction:column;}
+
+  /* HEADER */
+  .header{margin-bottom:32px;}
+  .kicker{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b6b76;font-weight:500;margin-bottom:16px;}
+  .headline{
+    font-family:'Inter Tight',sans-serif;font-weight:700;font-size:52px;line-height:1.02;letter-spacing:-0.025em;
+    background:linear-gradient(180deg,#ffffff,#d0d0d6);          /* Headline · White (subtil!) */
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .headline .accent{
+    font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+    background:linear-gradient(180deg,#ffb27a,#ff6a14);          /* Accent · Orange */
+    -webkit-background-clip:text;background-clip:text;color:transparent;padding-right:4px;
+  }
+  .sub{margin-top:15px;font-size:16.5px;font-weight:400;line-height:1.5;color:#9a9aa4;max-width:730px;}
+
+  /* PANELS — surface-raised Gradient + Gradient-Border-Lichtkante + Elevation E2/E4 */
+  .panels{display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1;}
+  .panel{
+    position:relative;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;
+    background:linear-gradient(180deg,#17171c,#101015);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 2px 4px rgba(0,0,0,0.45),0 18px 40px -14px rgba(0,0,0,0.8);
+  }
+  .panel::after{  /* Lichtkante via mask-composite */
+    content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,0.16),rgba(255,255,255,0.03) 50%,rgba(255,255,255,0.02));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+  }
+  .panel.hero{  /* E4 Hero: warmer Brand-Glow als eigene diffuse Ebene */
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.10),0 3px 6px rgba(0,0,0,0.55),0 40px 80px -24px rgba(0,0,0,0.9),0 0 90px -34px rgba(255,138,61,0.40);
+  }
+  .bar{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,0.06);position:relative;z-index:1;}
+  .dot{width:11px;height:11px;border-radius:50%;}
+  .dot.r{background:#ff5f57;}.dot.y{background:#febc2e;}.dot.g{background:#28c840;}
+  .bar-label{margin-left:10px;font-family:ui-monospace,'SF Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#6b6b76;}
+  .term{padding:20px 22px;font-family:ui-monospace,'SF Mono',monospace;font-size:12.5px;line-height:1.85;flex:1;position:relative;z-index:1;}
+  .cmd{color:#e6e6ec;}
+  .cmd .p{color:#ff8a3d;}                 /* orange prompt $ */
+  .muted{color:#6b6b76;}
+  .rule{color:rgba(255,255,255,0.14);}
+  .ok{color:#34d399;}                      /* Brand-Green (functional) */
+  .chk{color:#b8b8c2;}
+  .val{color:#f4f4f6;font-weight:500;}
+  .accent-txt{color:#ff8a3d;font-weight:700;}  /* Status, z.B. PRIVATE */
+  .gap{display:block;height:12px;}
+  .result{color:#34d399;font-weight:700;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="kicker">Claude Code Skill · brand-design-system</div>
+      <div class="headline">Eine Domain. Ein <span class="accent">Design-System.</span></div>
+      <div class="sub">Claude Code liest die echte Marke von der Live-Seite, baut die Karten in Claude Design und verankert das Branding global — extrahiert, nie erfunden.</div>
+    </div>
+
+    <div class="panels">
+      <!-- PANEL 1 — echter Output (Terminal-Session ODER echte Datei) -->
+      <div class="panel">
+        <div class="bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="bar-label">skill-lauf · claude code</span>
+        </div>
+        <div class="term">
+          <div class="cmd"><span class="p">$</span> /brand-design-system https://simonschaefer.ai</div>
+          <span class="gap"></span>
+          <div><span class="ok">✓</span> <span class="chk">HTML + 2 verlinkte Stylesheets + Unterseiten gelesen</span></div>
+          <div><span class="ok">✓</span> <span class="chk">45 Tokens extrahiert (Farben · Motion · Gradients)</span></div>
+          <div><span class="ok">✓</span> <span class="chk">check_cards.py — total: 6 · bad: 0</span></div>
+          <div><span class="ok">✓</span> <span class="chk">6 Karten gerendert &amp; gesichtet (agent-browser)</span></div>
+          <div class="rule">──────────────────────────────</div>
+          <div class="result">14 Dateien → claude.ai/design gepusht ✓</div>
+        </div>
+      </div>
+
+      <!-- PANEL 2 — echter Output, .hero = warmer Glow für den Kern-Beleg -->
+      <div class="panel hero">
+        <div class="bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="bar-label">globales brand-kit</span>
+        </div>
+        <div class="term">
+          <div class="cmd"><span class="p">$</span> python3 scripts/install_branding.py build/ --slug simonschaefer …</div>
+          <div><span class="val">Brand-Kit → ~/.claude/branding/simonschaefer</span> · <span class="accent-txt">GLOBAL</span></div>
+          <div><span class="chk">brand.md (45 Tokens) · tokens.css · 4 Fonts · 6 Karten</span></div>
+          <div><span class="chk">Block in ~/.claude/CLAUDE.md angehängt (idempotent)</span></div>
+          <span class="gap"></span>
+          <div class="result">Branding in jedem Projekt verfügbar ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
