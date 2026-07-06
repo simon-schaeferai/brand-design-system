@@ -77,35 +77,64 @@ FONT_FACE = """@font-face { font-family: "Beispiel Sans"; font-weight: 400; font
 @font-face { font-family: "Beispiel Sans"; font-weight: 700; font-style: normal; font-display: swap; src: url("../fonts/beispiel-sans-700.woff2") format("woff2"); }
 """
 
-# ---------- 3) Basis-CSS — gleiche Grundfläche für alle Karten (an den Marken-Charakter anpassen) ----------
+# ---------- 3) ATMOSPHÄRE — die Karten-Fläche IST die Marke, keine weiße Doku-Seite ----------
+# HIER das echte Flächen-Finish der Marke eintragen (aus der Extraktion, nie erfunden):
+#   - Dunkle Premium-Marke mit Verläufen/Grain: den echten Canvas-Radial-Verlauf als
+#     body-background + den Grain-Layer (body::before) aktivieren.
+#   - Helle Flat-Marke: einfarbige Fläche, KEIN Grain, Trennung über Border — Flat ist
+#     dann das Handwerk. Den ::before-Block einfach leer lassen.
+# Ein Lichtmodell, eine Fläche, für ALLE Karten gleich.
+ATMOSPHERE_CSS = """body {
+  /* Beispiel flat/hell — ersetzen durch das echte Finish der Marke: */
+  background: var(--color-bg);
+  /* Beispiel dunkle Premium-Marke (nur bei Evidenz):
+  background: radial-gradient(125% 92% at 50% -8%, #0c0c12 0%, #07070a 58%);
+  background-color: #07070a; */
+}
+/* Grain-Layer — NUR aktivieren, wenn die echte Seite Grain/Noise zeigt:
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 3; pointer-events: none;
+  opacity: 0.045; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+} */
+"""
+
+# ---------- 3b) Basis-CSS — Doku-Gerüst + Tiefen-Klassen (Doktrin, Rezept, Demo-Meta) ----------
 BASE_CSS = """* { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--text-body-s);
   line-height: 1.5;
   padding: var(--space-2xl);
+  position: relative;
   -webkit-font-smoothing: antialiased;
 }
-.wrap { max-width: 960px; margin: 0 auto; }
+.wrap { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
 .kicker {
   font-weight: 700; font-size: var(--text-label-m);
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--color-muted); margin-bottom: var(--space-2xs);
 }
+/* These, kein Label: "Tiefe wird gebaut, nicht behauptet" statt "Shadows" */
 .card-title {
   font-family: var(--font-heading); font-weight: 700;
   font-size: var(--text-heading-l); line-height: var(--leading-l);
   margin: 0 0 8px 0;
 }
-.card-sub { color: var(--color-text-secondary); font-size: var(--text-body-xs); margin: 0 0 var(--space-lg) 0; max-width: 640px; }
+/* Doktrin-Absatz: erklärt das SYSTEM (warum die Marke so aussieht), aus der Evidenz */
+.doctrine { color: var(--color-text-secondary); font-size: var(--text-body-xs); line-height: 1.65; margin: 0 0 var(--space-lg) 0; max-width: 640px; }
 .section-label {
   font-weight: 700; font-size: var(--text-body-2xs); letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--color-text-secondary);
   margin: var(--space-lg) 0 var(--space-2xs) 0;
 }
+/* Rezept: WIE ein Wert gebaut/eingesetzt wird — an jeder Demonstration */
+.recipe { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 9.5px; color: var(--color-muted); line-height: 1.6; margin-top: 6px; }
+/* Demo-Meta: Name + Einsatz unter jeder Demo-Kachel */
+.demo-name { font-size: 13px; font-weight: 600; margin-top: 12px; }
+.demo-use { font-size: 11px; color: var(--color-muted); font-family: ui-monospace, "SF Mono", Menlo, monospace; margin-top: 2px; }
 .note { font-size: var(--text-body-2xs); color: var(--color-muted); }
 .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; color: var(--color-text-secondary); }
 """
@@ -124,6 +153,7 @@ def page(group, kicker, title, sub, body, extra_css=""):
 {FONT_FACE}
 {TOKENS_CSS}
 {BASE_CSS}
+{ATMOSPHERE_CSS}
 {extra_css}
 </style>
 </head>
@@ -131,7 +161,7 @@ def page(group, kicker, title, sub, body, extra_css=""):
 <div class="wrap">
   <div class="kicker">{kicker}</div>
   <h1 class="card-title">{title}</h1>
-  <p class="card-sub">{sub}</p>
+  <p class="doctrine">{sub}</p>
 {body}
 </div>
 </body>
@@ -141,20 +171,45 @@ def page(group, kicker, title, sub, body, extra_css=""):
 
 cards = {}
 
-# ---------- 4) KARTEN — Beispiel ersetzen, Standard-Satz siehe references/cards.md ----------
+# ---------- 4) KARTEN — Beispiel ersetzen, Standard-Satz + Tiefen-Standard: references/cards.md ----------
 # Gruppen: "Brand" | "Foundations" | "Components"
+# Struktur-Referenz (Pflicht-Niveau): assets/example-card.html im Skill-Ordner.
+# Jede Karte: These-Titel · Doktrin · >=3 Sektionen · Rezepte (.recipe) · Nutzungsregeln · Token-Labels.
 cards["cards/overview.html"] = page(
-    "Brand", "MARKE — Design System", "Overview",
-    "Ein Satz Marken-Essenz — aus der echten Seite abgeleitet, nicht erfunden.",
+    "Brand", "MARKE — Design System", "Titel als These, nicht als Label",
+    "Doktrin-Absatz: erklärt in 2-3 Sätzen das SYSTEM der Marke (was trägt die Fläche, was der "
+    "Akzent, welche Regel steckt dahinter) — aus der Extraktions-Evidenz, nicht erfunden.",
     """
-  <div class="section-label">Beispiel-Sektion</div>
-  <p>Diesen Block durch echten Inhalt ersetzen (Logo, Essenz, Farb-Strip). Mindestens ~2,5 KB
-  Substanz pro Karte, sonst schlägt der Dünn-Schutz von check_cards.py an.</p>
+  <div class="section-label">Demonstration mit Rezept</div>
   <div style="display:flex; gap:8px;">
-    <div style="flex:1; height:56px; background:var(--color-text); border-radius:var(--radius-sm);"></div>
-    <div style="flex:1; height:56px; background:var(--color-accent); border-radius:var(--radius-sm);"></div>
-    <div style="flex:1; height:56px; background:var(--color-border); border-radius:var(--radius-sm);"></div>
+    <div style="flex:2;">
+      <div style="height:56px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:var(--radius-sm);"></div>
+      <div class="demo-name">Fläche</div>
+      <div class="demo-use">--color-bg · trägt alles</div>
+      <div class="recipe">Rezept: wie die Fläche gebaut ist (Verlauf? flat? Grain?)</div>
+    </div>
+    <div style="flex:1;">
+      <div style="height:56px; background:var(--color-accent); border-radius:var(--radius-sm);"></div>
+      <div class="demo-name">Akzent</div>
+      <div class="demo-use">--color-accent · sparsam</div>
+      <div class="recipe">Rezept: wo der Akzent erlaubt ist</div>
+    </div>
+    <div style="flex:1;">
+      <div style="height:56px; background:var(--color-border); border-radius:var(--radius-sm);"></div>
+      <div class="demo-name">Trennung</div>
+      <div class="demo-use">--color-border</div>
+      <div class="recipe">Rezept: Border statt Schatten? Warum?</div>
+    </div>
   </div>
+  <div class="section-label">Nutzungsregeln</div>
+  <ul style="font-size:var(--text-body-xs); color:var(--color-text-secondary); margin:0; padding-left:18px;">
+    <li>Regel 1 aus der Evidenz (z.B. „Akzentfarbe nur am Haupt-CTA, nie für Navigation").</li>
+    <li>Regel 2 — auch Verbote sind Regeln, oft die wertvollsten.</li>
+  </ul>
+  <div class="section-label">Hinweis für den Bau</div>
+  <p class="note">Diesen Beispiel-Block komplett durch echten Marken-Inhalt ersetzen. Das Gate
+  verlangt ≥6 KB Substanz und ≥3 Sektionen pro Karte — eine echte Karte erreicht das durch
+  Inhalt, nie durch Fülltext. Struktur-Niveau: assets/example-card.html.</p>
 """)
 
 # ---------- 5) Schreiben + Selbst-Assert ----------

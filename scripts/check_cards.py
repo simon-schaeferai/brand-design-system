@@ -5,8 +5,10 @@ Prüft jede cards/*.html im Arbeitsordner:
   1. Erste Zeile ist byte-genau der @dsCard-Marker (kein BOM, kein Leerzeichen davor).
   2. Schriften lokal eingebettet (../fonts/*.woff2), KEIN Font-CDN (googleapis/gstatic/typekit).
   3. Jede genutzte var(--token) ist in der Karte definiert (Karten sind eigenständig).
-  4. Dünn-Schutz: Karte hat substanziellen Inhalt (>2500 Bytes).
-  5. Asset-Referenzen zeigen lokal auf ../assets/ (kein Hotlink auf fremde Hosts).
+  4. TIEFEN-Gate (Standard aus references/cards.md): >=6000 Bytes Substanz und
+     >=3 Sektionen (section-label) — eine Karte ist ein erklärtes System, keine Token-Liste.
+  5. Colors-Karte muss berechnete WCAG-Ratios enthalten (Muster "n:1").
+  6. Asset-Referenzen zeigen lokal auf ../assets/ (kein Hotlink auf fremde Hosts).
 
 Aufruf:  python3 check_cards.py <arbeitsordner>
 Exit 0 = alles grün · Exit 1 = Fehler (Details auf stdout)
@@ -17,7 +19,9 @@ import sys
 
 MARKER_RE = re.compile(r'^<!-- @dsCard group="[^"]+" -->')
 CDN_HOSTS = ("fonts.googleapis.com", "fonts.gstatic.com", "use.typekit.net", "kit.fontawesome.com")
-MIN_BYTES = 2500
+MIN_BYTES = 6000
+MIN_SECTIONS = 3
+WCAG_RE = re.compile(r"\d[\d,.]*\s*:\s*1")
 
 
 def check_card(path: str) -> list:
@@ -47,7 +51,17 @@ def check_card(path: str) -> list:
         errs.append(f"undefinierte Tokens: {sorted(missing)}")
 
     if len(raw) < MIN_BYTES:
-        errs.append(f"dünn ({len(raw)} Bytes < {MIN_BYTES})")
+        errs.append(f"zu dünn ({len(raw)} B < {MIN_BYTES}) — Tiefen-Standard: These, Doktrin, "
+                    f"Demos mit Rezepten, Nutzungsregeln (references/cards.md)")
+
+    sections = len(re.findall(r'class="[^"]*section-label', text))
+    if sections < MIN_SECTIONS:
+        errs.append(f"nur {sections} Sektion(en) < {MIN_SECTIONS} — eine Karte ist ein erklärtes "
+                    f"System (Demo + Regeln + Tokens), keine Token-Liste")
+
+    if "colors" in os.path.basename(path).lower() and not WCAG_RE.search(text):
+        errs.append("Colors-Karte ohne berechnete WCAG-Ratios (Muster 4.5:1) - Kontraste "
+                    "gehoeren ausgewiesen, FAILs markiert")
 
     for src in re.findall(r'src="([^"]+)"', text):
         if src.startswith(("http://", "https://", "//")):

@@ -1,0 +1,144 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<!--
+  EXEMPLAR — das Pflicht-Struktur-Niveau jeder Karte (Tiefen-Standard aus references/cards.md).
+
+  Fantasie-Marke „Fjord Rösterei" (hell, warm, soft-depth) — BEWUSST kein realer Look.
+
+  NACHAHMEN (Struktur):           EXTRAHIEREN (Look — kommt aus der echten Marke):
+  · These-Titel statt Label       · Farben, Fonts, Radien, Schatten-Werte
+  · Doktrin-Absatz (das WARUM)    · hell/dunkel, flat/tief, Atmosphäre
+  · Demonstration MIT Rezept      · die konkreten Nutzungsregeln
+  · Nutzungsregeln inkl. Verbote
+  · Token-Label an jedem Wert
+  · >= 3 Sektionen, echte Substanz
+-->
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fjord Rösterei — Elevation &amp; Licht</title>
+<style>
+/* Echte Karte: @font-face auf ../fonts/*.woff2 (echte Dateien der Marke). */
+@font-face { font-family: "Fjord Sans"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/fjord-sans-400.woff2") format("woff2"); }
+@font-face { font-family: "Fjord Sans"; font-weight: 700; font-style: normal; font-display: swap; src: url("../fonts/fjord-sans-700.woff2") format("woff2"); }
+
+:root {
+  /* Fantasie-Tokens — in der echten Karte kommt hier der kanonische Block der Marke hin */
+  --color-bg: #faf6f0;
+  --color-surface: #ffffff;
+  --color-text: #2b2118;
+  --color-text-secondary: #6d5f52;
+  --color-muted: #a3958a;
+  --color-border: #e8ddd0;
+  --color-accent: #0e7a6e;
+  --text-heading-l: 30px;
+  --text-body-s: 15px;
+  --text-body-xs: 13px;
+  --text-body-2xs: 12px;
+  --text-label-m: 11px;
+  --space-2xs: 12px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-2xl: 48px;
+  --radius-md: 14px;
+  /* Das Tiefen-System der Fantasie-Marke: warm, weich, EINE Lichtquelle oben */
+  --shadow-e1: 0 1px 2px rgba(64, 48, 32, 0.10);
+  --shadow-e2: 0 1px 2px rgba(64, 48, 32, 0.10), 0 8px 20px -8px rgba(64, 48, 32, 0.18);
+  --shadow-e3: 0 2px 4px rgba(64, 48, 32, 0.12), 0 20px 44px -16px rgba(64, 48, 32, 0.26);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  /* ATMOSPHÄRE: Fläche = Marken-Finish. Diese Marke ist hell-warm, also warmes Papier,
+     kein Grain, kein Verlauf. Eine dunkle Marke bekäme hier ihren echten Canvas-Verlauf. */
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Fjord Sans", Georgia, serif;
+  font-size: var(--text-body-s);
+  line-height: 1.55;
+  padding: var(--space-2xl);
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 960px; margin: 0 auto; }
+.kicker { font-weight: 700; font-size: var(--text-label-m); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-2xs); }
+.card-title { font-weight: 700; font-size: var(--text-heading-l); line-height: 1.2; margin: 0 0 10px 0; }
+.doctrine { color: var(--color-text-secondary); font-size: var(--text-body-xs); line-height: 1.7; margin: 0 0 var(--space-lg) 0; max-width: 620px; }
+.section-label { font-weight: 700; font-size: var(--text-body-2xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-secondary); margin: var(--space-lg) 0 var(--space-2xs) 0; }
+.recipe { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 9.5px; color: var(--color-muted); line-height: 1.6; margin-top: 8px; }
+.demo-name { font-size: 13px; font-weight: 700; margin-top: 14px; }
+.demo-use { font-size: 11px; color: var(--color-muted); font-family: ui-monospace, "SF Mono", Menlo, monospace; margin-top: 2px; }
+.note { font-size: var(--text-body-2xs); color: var(--color-muted); }
+.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; color: var(--color-text-secondary); }
+.row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; align-items: end; }
+.tile { height: 110px; border-radius: var(--radius-md); background: var(--color-surface); }
+.e0 { border: 1px solid var(--color-border); }
+.e1 { box-shadow: var(--shadow-e1); }
+.e2 { box-shadow: var(--shadow-e2); }
+.e3 { box-shadow: var(--shadow-e3); }
+.lightnote { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-muted); margin-bottom: var(--space-md); }
+.sun { width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 50% 35%, #fff, #f0c86e); box-shadow: 0 0 10px rgba(240, 200, 110, 0.7); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- STRUKTUR 1: Kicker ordnet die Karte ein -->
+  <div class="kicker">Foundations · Elevation &amp; Licht</div>
+
+  <!-- STRUKTUR 2: Titel ist eine THESE (Haltung), kein Label wie „Shadows" -->
+  <h1 class="card-title">Tiefe ist bei uns warm und leise</h1>
+
+  <!-- STRUKTUR 3: Doktrin erklärt das SYSTEM. Aus der Evidenz der Marke, nie erfunden. -->
+  <p class="doctrine">Eine Lichtquelle, oben. Drei Stufen, alle aus demselben warmen Braun-Schatten
+  gebaut, nur in der Weite gesteigert. Auf der ruhigsten Ebene trennt eine Border statt eines
+  Schattens, denn Papier wirft kein Licht. Tiefe kündigt bei dieser Marke Interaktion an, nie
+  Dekoration.</p>
+
+  <div class="lightnote"><span class="sun"></span> Lichtquelle: oben · Schatten fallen warm nach unten</div>
+
+  <!-- STRUKTUR 4: Demonstration MIT Rezept-Transparenz. Jede Stufe zeigt WIE sie gebaut ist. -->
+  <div class="section-label">Die Stufen</div>
+  <div class="row">
+    <div>
+      <div class="tile e0"></div>
+      <div class="demo-name">E0 · Papier</div>
+      <div class="demo-use">ruhende Fläche</div>
+      <div class="recipe">1px Border --color-border<br>kein Schatten</div>
+    </div>
+    <div>
+      <div class="tile e1"></div>
+      <div class="demo-name">E1 · Angehoben</div>
+      <div class="demo-use">Karte, Listeneintrag</div>
+      <div class="recipe">Kontakt 1px/2px<br>rgba(64,48,32,.10)</div>
+    </div>
+    <div>
+      <div class="tile e2"></div>
+      <div class="demo-name">E2 · Schwebend</div>
+      <div class="demo-use">Dropdown, Popover</div>
+      <div class="recipe">+ Boden 8px/20px<br>blur breit, −8 spread</div>
+    </div>
+    <div>
+      <div class="tile e3"></div>
+      <div class="demo-name">E3 · Gehoben</div>
+      <div class="demo-use">Modal, Hover-Fokus</div>
+      <div class="recipe">+ Boden 20px/44px<br>Deckkraft steigt auf .26</div>
+    </div>
+  </div>
+
+  <!-- STRUKTUR 5: Nutzungsregeln inkl. Verboten. Oft die wertvollste Sektion. -->
+  <div class="section-label">Regeln</div>
+  <ul style="font-size: var(--text-body-xs); color: var(--color-text-secondary); margin: 0; padding-left: 18px;">
+    <li>Pro Ansicht höchstens EIN Element auf E3. Tiefe ist ein Fokus-Signal, kein Stilmittel.</li>
+    <li>Ruhender Inhalt bleibt auf E0/E1. E2 und E3 sind Interaktion (öffnet sich, schwebt, fordert Antwort).</li>
+    <li>Nie kalte oder schwarze Schatten mischen — alle Stufen nutzen denselben warmen Braun-Ton.</li>
+  </ul>
+
+  <!-- STRUKTUR 6: Token-Verweis, damit die Karte als Referenz taugt -->
+  <div class="section-label">Tokens</div>
+  <p class="mono">--shadow-e1 · --shadow-e2 · --shadow-e3 · Ausnahme E0 = --color-border</p>
+  <p class="note">Jeder Wert oben ist mit seinem Token beschriftet, jede Stufe mit ihrem Rezept.
+  Genau dieses Niveau (These, Doktrin, Rezepte, Regeln, Labels) muss jede Karte erreichen — im
+  Look der jeweils extrahierten Marke, nicht in diesem.</p>
+</div>
+</body>
+</html>

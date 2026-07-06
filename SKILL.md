@@ -44,22 +44,25 @@ Danach in **EINE kanonische `tokens.css`** normalisieren (`:root{...}`, einheitl
 
 ### Checkpoint — Go einholen
 
-Dem User zeigen: Token-Übersicht als Tabelle, geplante Karten-Liste (was ausgelassen wird und warum, inkl. Grep-Beleg), Schrift-Plan (einbettbar vs. lizenzierter Fallback), Asset-Fundliste (gefunden/nicht gefunden), Ziel-Projekt (neu oder bestehend). **Auf Go warten, bevor Karten geschrieben werden.**
+Dem User zeigen: Token-Übersicht als Tabelle, den **Karten-Plan mit den geplanten Sektionen pro Karte** (nicht nur Namen — z.B. „Colors: Rollen-Grid · WCAG-Tabelle · Verwendungsregeln"), Schrift-Plan (einbettbar vs. lizenzierter Fallback), Asset-Fundliste (gefunden/nicht gefunden), Ziel-Projekt (neu oder bestehend). **Coverage:** Eine typische Marke ergibt 10+ Karten; planst du weniger, je Auslassung einen Evidenz-Beleg nennen (leere Grep / nicht vorhanden). „Weniger Arbeit" ist kein Beleg. **Auf Go warten, bevor Karten geschrieben werden.**
 
 ### Phase 2 — Karten bauen
 
-**Karten-Satz und Generator-Muster: [references/cards.md](references/cards.md).**
+**Karten-Satz, Tiefen-Standard und Generator-Muster: [references/cards.md](references/cards.md).** Vor dem Bauen die Pflicht-Referenz [assets/example-card.html](assets/example-card.html) ansehen — sie zeigt das Struktur-Niveau, das JEDE Karte erreichen muss: These-Titel → Doktrin-Absatz → Demonstration mit Rezepten → Nutzungsregeln (inkl. Verbote) → Token-Labels. Struktur nachahmen, Look aus der jeweiligen Marke extrahieren.
 
-1. `assets/gen_cards_template.py` (aus diesem Skill-Ordner) in den Arbeitsordner kopieren und mit den extrahierten Werten füllen — der Token-Block wird EINMAL definiert und in jede Karte injiziert, nie pro Karte von Hand.
+1. `assets/gen_cards_template.py` in den Arbeitsordner kopieren und füllen — der Token-Block wird EINMAL definiert und in jede Karte injiziert, nie pro Karte von Hand. Den ATMOSPHERE-Block auf das echte Flächen-Finish der Marke setzen (dunkle Marke = echter Canvas-Verlauf/Grain; helle Flat-Marke = flat lassen). Die Karte IST die Marke, keine weiße Doku-Seite.
 2. Generator laufen lassen → `cards/*.html` + `tokens.css` entstehen im Arbeitsordner.
-3. **Gate:** `python3 scripts/check_cards.py <arbeitsordner>` muss `bad: 0` melden (Marker byte-genau Zeile 1, lokale Fonts, kein Font-CDN, alle Tokens definiert, keine dünne Karte, Asset-Referenzen lokal). Fehler beheben und neu generieren, bis grün.
+3. **Gate:** `python3 scripts/check_cards.py <arbeitsordner>` muss `bad: 0` melden. Prüft zusätzlich zum Basalen jetzt den Tiefen-Standard: ≥6 KB Substanz und ≥3 Sektionen pro Karte, WCAG-Ratios auf der Colors-Karte. Fehler beheben und neu generieren, bis grün — Tiefe kommt aus echtem Inhalt (Doktrin, Rezepte, Regeln), NIE aus Fülltext.
 
-### Phase 3 — Echt rendern
+### Phase 3 — Echt rendern + Tiefen-Sichtprüfung
 
 `bash scripts/render_cards.sh <arbeitsordner>` — screenshottet jede Karte.
 
-- **Screenshots ANSEHEN** (mit dem Read-Tool): Schriften greifen? Bilder laden? Nichts leer oder kaputt?
-- Kein Browser verfügbar → das Skript sagt es ehrlich. Dann im Bericht klar ausweisen: „nur statisch geprüft, nicht gerendert". **Nie behaupten, eine Karte sei gerendert, wenn nichts lief.**
+- **Screenshots ANSEHEN** (mit dem Read-Tool). Pro Karte zwei Prüfungen:
+  - **Technik:** Schriften greifen? Bilder laden? Nichts leer oder kaputt?
+  - **Tiefe:** Trägt die Karte eine These (kein bloßes Label)? Erklärt die Doktrin das System? Hat jede Demonstration ein Rezept? Stehen Nutzungsregeln da? Ist die Fläche im Marken-Finish (Atmosphäre), nicht Doku-Weiß? Wirkt sie wie eine Seite aus einem Marken-Guide oder wie eine nackte Token-Liste?
+- Eine Karte, die nur Swatches zeigt, geht zurück in Phase 2 (Doktrin/Rezepte/Regeln ergänzen), nicht in den Push.
+- Kein Browser verfügbar → das Skript sagt es ehrlich (und nennt `npm install -g agent-browser`). Dann im Bericht klar ausweisen: „nur statisch geprüft, nicht gerendert". **Nie behaupten, eine Karte sei gerendert, wenn nichts lief.**
 
 ### Phase 4 — Push über DesignSync
 
