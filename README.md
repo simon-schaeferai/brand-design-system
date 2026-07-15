@@ -20,16 +20,19 @@ Design-Konstante des Projekts: **ein** kanonischer `tokens.css`-Block, aus dem j
 **Requirements:** Claude Code, ein Claude-Abo mit Zugang zu Claude Design (claude.ai/design), Python 3. Empfohlen: Node/npm für agent-browser.
 
 ```bash
-# 1. Skill installieren (global = in allen Projekten verfügbar)
+# 1. Skill installieren — landet in ~/.claude/skills/, wo die Claude-Desktop-App UND die CLI ihn automatisch finden
 git clone https://github.com/simon-schaeferai/brand-design-system ~/.claude/skills/brand-design-system
 
-# 2. agent-browser installieren (empfohlen) — rendert jede Karte echt, bevor gepusht wird
+# 2. agent-browser installieren (optional) — rendert jede Karte echt, bevor gepusht wird
 npm install -g agent-browser
 
-# 3. Neue Claude-Code-Session öffnen (beliebiger Ordner) und den Skill aufrufen — das ist alles
+# 3. Claude Code neu starten / neue Session öffnen — der Skill ist da
+
+# Update auf eine neue Version (jederzeit):
+git -C ~/.claude/skills/brand-design-system pull
 ```
 
-Wenn Claude Code danach `/brand-design-system` als Command kennt, bist du startklar. Schritt 2 ist optional: ohne agent-browser läuft statt der Render-Prüfung ein ehrlicher statischer Check.
+Wenn Claude Code danach `/brand-design-system` als Command kennt, bist du startklar — in der **Desktop-App** genauso wie in der **CLI** (beide laden Skills aus `~/.claude/skills/`). Schritt 2 ist optional: ohne agent-browser läuft statt der Render-Prüfung ein ehrlicher statischer Check.
 
 ## Using it
 
@@ -37,7 +40,7 @@ Wenn Claude Code danach `/brand-design-system` als Command kennt, bist du startk
 /brand-design-system https://deine-domain.de
 ```
 
-Claude extrahiert, zeigt dir einen Checkpoint (Token-Tabelle, Karten-Plan, Schrift-Plan), wartet auf dein Go, baut, verifiziert, pusht — und fragt am Ende, ob es das Branding global verankern soll. Kommt beim Pushen ein Login-Hinweis: einmal `/design-login` im Terminal, „weiter" schreiben, fertig.
+Claude extrahiert, zeigt dir einen Checkpoint (Token-Tabelle, Karten-Plan, Schrift-Plan), wartet auf dein Go, baut, verifiziert, pusht — und fragt am Ende, ob es das Branding global verankern soll. Kommt beim Pushen ein Login-Hinweis: einmal `/design-login` in Claude Code eingeben, „weiter" schreiben, fertig.
 
 ## Design choices
 
