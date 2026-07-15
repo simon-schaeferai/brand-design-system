@@ -17,27 +17,36 @@ Design-Konstante des Projekts: **ein** kanonischer `tokens.css`-Block, aus dem j
 
 ## Quick start
 
-**Requirements:** Claude Code, ein Claude-Abo mit Zugang zu Claude Design (claude.ai/design), Python 3. Empfohlen: Node/npm für agent-browser.
+**Requirements:** [Claude Code](https://claude.com/claude-code) (aktuelle Version), ein Claude-Abo mit Zugang zu Claude Design (claude.ai/design), Python 3. Empfohlen: Node/npm für agent-browser.
 
-```bash
-# 1. Skill installieren (global = in allen Projekten verfügbar)
-git clone https://github.com/simon-schaeferai/brand-design-system ~/.claude/skills/brand-design-system
+Die Installation läuft komplett **in Claude Code** — kein Terminal, kein Entpacken, funktioniert auch unter Windows. Zwei Zeilen:
 
-# 2. agent-browser installieren (empfohlen) — rendert jede Karte echt, bevor gepusht wird
-npm install -g agent-browser
-
-# 3. Neue Claude-Code-Session öffnen (beliebiger Ordner) und den Skill aufrufen — das ist alles
+```text
+/plugin marketplace add simon-schaeferai/brand-design-system
+/plugin install brand-design-system@simon-schaefer
 ```
 
-Wenn Claude Code danach `/brand-design-system` als Command kennt, bist du startklar. Schritt 2 ist optional: ohne agent-browser läuft statt der Render-Prüfung ein ehrlicher statischer Check.
+Optional, für die echte Render-Prüfung jeder Karte (ohne läuft ein ehrlicher statischer Check):
+
+```bash
+npm install -g agent-browser
+```
 
 ## Using it
 
-```
-/brand-design-system https://deine-domain.de
+Neue Session öffnen und in normaler Sprache starten — der Skill triggert automatisch:
+
+> „Mach ein Marken-Design-System aus https://deine-domain.de"
+
+Oder als expliziter Command:
+
+```text
+/brand-design-system:brand-design-system https://deine-domain.de
 ```
 
-Claude extrahiert, zeigt dir einen Checkpoint (Token-Tabelle, Karten-Plan, Schrift-Plan), wartet auf dein Go, baut, verifiziert, pusht — und fragt am Ende, ob es das Branding global verankern soll. Kommt beim Pushen ein Login-Hinweis: einmal `/design-login` im Terminal, „weiter" schreiben, fertig.
+Claude extrahiert, zeigt dir einen Checkpoint (Token-Tabelle, Karten-Plan, Schrift-Plan), wartet auf dein Go, baut, verifiziert, pusht — und fragt am Ende, ob es das Branding global verankern soll. Kommt beim Pushen ein Login-Hinweis: einmal `/design-login` in Claude Code eingeben, „weiter" schreiben, fertig.
+
+**Updaten:** Neue Version verfügbar? `/plugin marketplace update simon-schaefer` zieht sie.
 
 ## Design choices
 

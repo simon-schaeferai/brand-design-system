@@ -1,0 +1,19 @@
+{
+  "name": "simon-schaefer",
+  "description": "Community-Skills von Simon Schäfer für Claude Code.",
+  "owner": {
+    "name": "Simon Schäfer",
+    "url": "https://github.com/simon-schaeferai"
+  },
+  "plugins": [
+    {
+      "name": "brand-design-system",
+      "source": "./plugins/brand-design-system",
+      "description": "Eine Domain → komplettes Marken-Design-System in Claude Design + optionales globales Brand-Kit.",
+      "version": "1.0.0",
+      "author": { "name": "Simon Schäfer" },
+      "homepage": "https://github.com/simon-schaeferai/brand-design-system",
+      "license": "MIT"
+    }
+  ]
+}
