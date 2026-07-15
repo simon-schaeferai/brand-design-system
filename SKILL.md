@@ -26,9 +26,9 @@ Der User gibt nur seine **Domain** (z.B. `https://acme.de`). Optional: Notizen o
 
 ### Phase 0 — Preflight
 
-1. DesignSync-Tool laden: `ToolSearch("select:DesignSync")`. Ist es nicht verfügbar oder meldet später „needs a claude.ai login": **nicht abbrechen** — dem User wörtlich sagen, er soll im Terminal `/design-login` ausführen (alternativ `/login` mit dem Abo-Account), sich authentifizieren und „weiter" schreiben. Bis dahin alles Lokale trotzdem fertig bauen.
+1. DesignSync-Tool laden: `ToolSearch("select:DesignSync")`. Ist es nicht verfügbar oder meldet später „needs a claude.ai login": **nicht abbrechen** — dem User wörtlich sagen, er soll **in Claude Code** `/design-login` eingeben (alternativ `/login` mit dem Abo-Account), sich authentifizieren und „weiter" schreiben. NICHT „im Terminal" sagen — das verwirrt Desktop-App-Nutzer; `/design-login` funktioniert in Desktop-App und CLI. Bis dahin alles Lokale trotzdem fertig bauen.
 2. Browser-Verfügbarkeit prüfen: `bash scripts/render_cards.sh --detect` (Pfade relativ zu diesem Skill-Ordner). Ergebnis merken für Phase 3. Meldet der Check `none`, dem User JETZT (nicht erst in Phase 3) die Installation anbieten: `npm install -g agent-browser` (öffentliches npm-Paket, vercel-labs) — damit wird jede Karte vor dem Push echt gerendert und gesichtet statt nur statisch geprüft. Lehnt er ab oder gibt es kein npm, weiterarbeiten und den statischen Fallback ehrlich ausweisen.
-3. Dem User den einen manuellen Schritt ankündigen: Schriften müssen am Ende einmal über „Upload fonts" in Claude Design hochgeladen werden.
+3. Dem User die möglichen manuellen Handgriffe **vorab** ankündigen, damit nichts überrascht: (a) beim ersten Push evtl. einmal `/design-login` in Claude Code (claude.ai-Auth für DesignSync — danach gemerkt); (b) Schriften am Ende einmal über „Upload fonts" in Claude Design hochladen.
 4. Arbeitsordner anlegen (z.B. `./claude-design-build/` oder ein Scratch-Verzeichnis) mit Unterordnern `cards/`, `fonts/`, `assets/`.
 
 ### Phase 1 — Marke ehrlich extrahieren
@@ -73,7 +73,7 @@ Dem User zeigen: Token-Übersicht als Tabelle (**extrahiert vs. abgeleitet getre
 
 1. `python3 scripts/build_manifest.py <arbeitsordner>` → baut `_ds_manifest.json` aus den Karten + tokens.css. **Das Manifest wird bei JEDEM Push mitgeschrieben** — auch beim ersten. (Grund: Die App baut den Karten-Index nur beim allerersten Projekt-Load selbst; nachgepushte Karten erscheinen sonst nie in der Sidebar. Belegt, nicht theoretisch.)
 2. DesignSync-Reihenfolge: `list_projects` → ggf. `create_project` → `get_project` (Typ muss `PROJECT_TYPE_DESIGN_SYSTEM` sein) → `finalize_plan` (writes: `cards/*.html`, `tokens.css`, `components.css`, `fonts/*`, `assets/*`, `_ds_manifest.json`; localDir = Arbeitsordner) → `write_files` → `list_files` (Kontrolle) → `report_validate` mit den ehrlichen Zahlen.
-3. Login-Fehler → Protokoll aus Phase 0 (Terminal-Ansage, warten, nahtlos weitermachen).
+3. Login-Fehler → Protokoll aus Phase 0 (`/design-login` in Claude Code ansagen, warten, nahtlos weitermachen).
 4. Bestandsprojekt: erst Diff zeigen, nie fremde Pfade löschen ohne namentliche Bestätigung.
 
 ### Phase 5 — Global in Claude Code verankern (empfohlen, mit Zustimmung)
