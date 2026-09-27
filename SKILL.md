@@ -1,6 +1,6 @@
 ---
 name: brand-design-system
-description: Baut aus einer beliebigen Webseiten-Domain automatisch ein vollständiges Marken-Design-System auf Agentur-Niveau in Claude Design (claude.ai/design) — extrahiert Farben, Schriften, Layout, Motion, Gradients, Icons, Bildsprache und Voice, veredelt Lücken systematisch (Ramps/Skalen/States), baut einen Enterprise-Karten-Satz (~22: Foundations + volle Komponenten + Accessibility) mit geteilten Komponenten, prüft jede Karte gegen eine bewertete Design-QA-Rubric, pusht über DesignSync und verankert das Branding optional global in Claude Code (~/.claude/branding/). Nutze diesen Skill, wenn der User ein Design-System aus seiner Webseite/Domain/Brand will — „mach ein Design-System aus meiner Seite", „meine Brand in Claude Design", „Design-System für <domain>", „extrahier meine Marke", „Branding global einrichten", „/brand-design-system".
+description: Baut aus einer Webseiten-Domain ein vollständiges Marken-Design-System auf Agentur-Niveau in Claude Design (claude.ai/design) — extrahiert die echte Marke, veredelt Lücken, prüft gegen eine Design-QA-Rubric und pusht via DesignSync. Nutze diesen Skill, wenn der User ein Design-System aus seiner Webseite/Domain/Brand will — „mach ein Design-System aus meiner Seite", „meine Brand in Claude Design", „Design-System für <domain>", „extrahier meine Marke", „Branding global einrichten", „/brand-design-system".
 trigger-phrases:
   - "brand design system"
   - "design system aus meiner webseite"
